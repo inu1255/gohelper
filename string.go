@@ -1,6 +1,8 @@
 package gohelper
 
 import (
+	"io"
+	"io/ioutil"
 	"regexp"
 	"strings"
 	"unsafe"
@@ -29,6 +31,11 @@ func UpperFirstLetter(s string) string {
 		return strings.ToUpper(s[:1]) + s[1:]
 	}
 	return s
+}
+
+func ReadAll(r io.Reader) (string, error) {
+	s, err := ioutil.ReadAll(r)
+	return Bytes2str(s), err
 }
 
 func Str2bytes(s string) []byte {

@@ -10,7 +10,7 @@ import (
 func NewLogger() *log.Logger {
 	filename := os.Args[0]
 	var logFile *os.File
-	if strings.HasPrefix(filename, os.TempDir()) {
+	if len(os.Args) > 1 && os.Args[1] == "stdio" || strings.HasPrefix(filename, os.TempDir()) {
 		logFile = os.Stdout
 	} else {
 		filename += ".log"

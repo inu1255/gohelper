@@ -12,6 +12,7 @@ func Json2struct(s interface{}, classname string) error {
 	case string:
 		err := json.Unmarshal(Str2bytes(v), &info)
 		if err != nil {
+			ioutil.WriteFile(classname+".html", Str2bytes(v), 0655)
 			return err
 		}
 	case map[string]interface{}:
