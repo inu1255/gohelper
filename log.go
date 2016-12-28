@@ -17,7 +17,7 @@ func NewLogger() *log.Logger {
 		os.Mkdir(filename, 0755)
 		filename = strings.Join([]string{filename, "/", time.Now().Format("2006-01-02"), ".log"}, "")
 		var err error
-		logFile, err = os.OpenFile(filename, os.O_WRONLY|os.O_CREATE, 0644)
+		logFile, err = os.OpenFile(filename, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
 		if err != nil {
 			logFile = os.Stdout
 		}
