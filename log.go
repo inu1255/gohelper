@@ -7,6 +7,15 @@ import (
 	"time"
 )
 
+var logger = NewLogger()
+
+func Logger() *log.Logger {
+	return logger
+}
+func SetLogger(s *log.Logger) {
+	logger = s
+}
+
 func NewLogger() *log.Logger {
 	filename := os.Args[0]
 	var logFile *os.File
