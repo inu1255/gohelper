@@ -1,40 +1,10 @@
 package bee
 
 import (
-	"regexp"
-
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/context"
-	"github.com/astaxie/beego/logs"
 	"github.com/go-xorm/xorm"
 )
-
-var (
-	Engine   *xorm.Engine
-	OrderReg = regexp.MustCompile(`-([^,]+)`)
-)
-
-func SetDb(driver, datasource string) {
-	logger := logs.GetLogger()
-	var err error
-	Engine, err = xorm.NewEngine(driver, datasource)
-	if err != nil {
-		logger.Fatalln("open database false", err)
-	}
-	cacher := xorm.NewLRUCacher(xorm.NewMemoryStore(), 1000)
-	Engine.SetDefaultCacher(cacher)
-}
-
-const (
-	applicationJSON = "application/json"
-	applicationXML  = "application/xml"
-	textXML         = "text/xml"
-)
-
-type apimsg struct {
-	Msg  string      `json:"msg"`
-	Data interface{} `json:"data"`
-}
 
 type ApiController struct {
 	beego.Controller
@@ -83,13 +53,13 @@ func (c *ApiController) ServeFormatted() {
 	}
 	switch accept {
 	case applicationJSON:
-		c.Data["json"] = apimsg{msg, c.Data["data"]}
+		c.Data["json"] = ApiMsg{msg, c.Data["data"]}
 		c.ServeJSON()
 	case applicationXML, textXML:
-		c.Data["xml"] = apimsg{msg, c.Data["data"]}
+		c.Data["xml"] = ApiMsg{msg, c.Data["data"]}
 		c.ServeXML()
 	default:
-		c.Data["json"] = apimsg{msg, c.Data["data"]}
+		c.Data["json"] = ApiMsg{msg, c.Data["data"]}
 		c.ServeJSON()
 	}
 }
